@@ -1,4 +1,4 @@
- {
+{
   "name": "binhobot",
   "description": "My personal assistant bot",
   "version": "1.0.0",
@@ -10,7 +10,9 @@
     "start": "node binho.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
+    "express": "^4.16.2",
     "node-telegram-bot-api": "^0.28.0"
   },
   "repository": {

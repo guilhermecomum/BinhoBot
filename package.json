@@ -1,20 +1,22 @@
-{
+ {
   "name": "binhobot",
-  "version": "1.0.0",
   "description": "My personal assistant bot",
+  "version": "1.0.0",
+  "engines": {
+    "node": "7.6.0"
+  },
   "main": "binho.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node binho.js"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "node-telegram-bot-api": "^0.28.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/guilhermecomum/BinhoBot.git"
   },
-  "keywords": [
-    "Telegram",
-    "bot",
-    "assistant"
-  ],
   "author": "Guilherme Guerra",
   "license": "MIT",
   "bugs": {

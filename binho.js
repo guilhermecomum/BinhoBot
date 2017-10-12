@@ -6,10 +6,10 @@ const bot = new telegramBot(token, {webHook: { port: process.env.PORT }});
 const url = process.env.APP_URL || 'https://binho-bot.herokuapp.com';
 
 // setup webhook
-bot.setWebHook(`${url}/bot${token}`);
+bot.setWebHook(`${url}${token}`);
 
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
+bot.on('text', (message) => {
+  const userId = message.chat.id;
 
-  bot.sendMessage(chatId, 'Yo! yo! yo! \u{1F601}');
+  bot.sendMessage(userId, 'Yo! yo! yo! \u{1F601}');
 });

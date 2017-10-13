@@ -1,1 +1,1 @@
-web: node dist/src/binho.js
+web: npm start

@@ -1,11 +1,13 @@
-const TelegramBot = require('node-telegram-bot-api');
-const dotenv = require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
+import TelegramBot from 'node-telegram-bot-api'
+import dotenv from 'dotenv'
+import express from 'express'
+import bodyParser from 'body-parser'
+
 const token = process.env.TELEGRAM_API;
-const bot = new TelegramBot(token);
 const url = process.env.APP_URL || 'https://binho-bot.herokuapp.com';
 const port = process.env.PORT
+
+const bot = new TelegramBot(token);
 
 // This informs the Telegram servers of the new webhook.
 bot.setWebHook(`${url}/bot${token}`);

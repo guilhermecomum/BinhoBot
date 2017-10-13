@@ -1,1 +1,1 @@
-web: node binho.js
+web: node dist/src/binho.js

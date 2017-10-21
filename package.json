@@ -8,7 +8,7 @@
   "main": "binho.js",
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && node dist/src/binho.js"
+    "start": "npm run build && nodemon dist/src/binho.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -18,8 +18,9 @@
     "express": "^4.16.2",
     "express-github-webhook": "^1.0.6",
     "github-webhook-handler": "^0.6.0",
-    "node-telegram-bot-api": "^0.28.0",
-    "rimraf": "^2.6.2"
+    "got": "^7.1.0",
+    "rimraf": "^2.6.2",
+    "telebot": "^1.2.3"
   },
   "repository": {
     "type": "git",

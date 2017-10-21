@@ -1,35 +1,29 @@
-import TelegramBot from 'node-telegram-bot-api'
+import TeleBot from 'telebot'
 import dotenv from 'dotenv'
-import express from 'express'
-import bodyParser from 'body-parser'
+import got from 'got'
+import cheerio from 'cheerio'
+import superagent from 'superagent'
 
+dotenv.config({ silent: true })
 const token = process.env.TELEGRAM_API;
-const url = process.env.APP_URL || 'https://binho-bot.herokuapp.com';
-const port = process.env.PORT
 
-const bot = new TelegramBot(token);
+const bot = new TeleBot(token)
 
-// This informs the Telegram servers of the new webhook.
-bot.setWebHook(`${url}/bot${token}`);
 
-const app = express();
+bot.on(/^\/receita (.+)$/, (msg, props) => {
+  const term = props.match[1];
+  got(`https://panelinha-api-server-prod.herokuapp.com/v1/search?title=${term}&pageSize=1&pageType=receita`).then(response => {
+    console.log(response.body)
+  })
+})
 
-// parse the updates to JSON
-app.use(bodyParser.json());
+bot.on(/^\/signo (.+)$/, (msg, props) => {
+  const term = props.match[1];
+  superagent.get(`http://emais.estadao.com.br/horoscopo/${term}`).then(response => {
+    let $ = cheerio.load(response.text)
+    let horoscopo = $('.h__signo__dia + p').text()
+    return bot.sendMessage(msg.from.id, `Seu horoscopo (${term}): ${horoscopo}`)
+  })
+})
 
-// We are receiving updates at the route below!
-app.post(`/bot${token}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
-
-// Start Express Server
-app.listen(port, () => {
-  console.log(`Express server is listening on ${port}`);
-});
-
-bot.on('message', (message) => {
-  const userId = message.chat.id;
-  console.log(message)
-  bot.sendMessage(userId, 'Em que posso ajudar? \u{1F601}');
-});
+bot.start()

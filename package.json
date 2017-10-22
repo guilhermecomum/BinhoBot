@@ -8,8 +8,8 @@
   "main": "binho.js",
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
-    "start": "npm run build && nodemon dist/src/binho.js",
-    "devel": "npm run build && nodemon dist/src/sandbot.js"
+    "start": "npm run build && node dist/src/binho.js",
+    "devel": "nodemon --exec babel-node -- src/binho.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",

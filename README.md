@@ -25,7 +25,7 @@ Run `heroku local web` and watch Binho doing what it's knows to do
 # ToDo
 - [ ] Github notifications
 - [ ] Search recipies from [Panelinha](https://www.panelinha.com.br/)
-- [ ] horoscope from [Quiroga](http://emais.estadao.com.br/horoscopo)
+- [x] horoscope from [Quiroga](http://emais.estadao.com.br/horoscopo)
 
 
 # Credits

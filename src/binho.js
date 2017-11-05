@@ -8,6 +8,12 @@ const token = process.env.TELEGRAM_API;
 
 const bot = new TeleBot(token)
 
+bot.on(/^\/(start|help|ajuda)$/, async(msg, props) => {
+  let id = msg.from.id
+  let name = msg.from.first_name
+  return bot.sendMessage(msg.from.id, `Olá ${name},\n\nEu sou o Binho e estou aqui para te ajudar \u{1F916}\n\n - Se quer saber seu horóscopo do dia: /signo\n - Se quiser uma pergunta aleatória: /pergunta `, {parseMode: 'markdown', replayMarkup: 'hide'})
+})
+
 bot.on(/\/signo/, (msg, props) => {
   let replyMarkup = bot.keyboard([
     [bot.button('♈ Áries'), bot.button('♉ Touro'), bot.button('♊ Gêmeos')],

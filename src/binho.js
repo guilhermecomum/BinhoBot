@@ -1,6 +1,7 @@
 import TeleBot from 'telebot'
 import dotenv from 'dotenv'
 import getHoroscope from './utils/zodiac'
+import getQuestion from './utils/questions'
 
 dotenv.config({ silent: true })
 const token = process.env.TELEGRAM_API;
@@ -24,6 +25,17 @@ bot.on(/^(♈|♉|♊|♋|♌|♍|♎|♏|♐|♑|♒|♓)(.+)$/, async (msg, pr
   let name = msg.from.first_name
   let result = await getHoroscope(term)
   bot.sendMessage( id, `*${result.day}*\n${name}, ${result.horoscope}`, {parseMode: 'markdown', replayMarkup: 'hide'} )
+})
+
+bot.on(/^\/pergunta$/, async(msg, props) => {
+  let id = msg.from.id
+  const question = await getQuestion('random')
+  return bot.sendMessage(msg.from.id, question)
+})
+
+bot.on(/^\/pergunta (.+)$/, async(msg, props) => {
+  const question = await getQuestion(props.match[1])
+  return bot.sendMessage(msg.from.id, question)
 })
 
 // Hide keyboard

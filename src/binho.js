@@ -38,7 +38,7 @@ bot.on(/\/signo/, (msg, props) => {
         bot.button("♒ Aquário"),
         bot.button("♓ Peixes")
       ],
-      [bot.button("Sair")]
+      [bot.button("sair")]
     ],
     { resize: true }
   );

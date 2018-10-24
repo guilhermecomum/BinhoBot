@@ -20,6 +20,7 @@
     "github-webhook-handler": "^0.6.0",
     "nodemon": "^1.12.1",
     "rimraf": "^2.6.2",
+    "spotify-web-api-node": "^4.0.0",
     "telebot": "^1.2.3"
   },
   "repository": {

@@ -94,7 +94,7 @@ bot.on(/^\/album$/, async (msg, props) => {
 });
 
 // Hide keyboard
-bot.on(/sair/, msg => {
+bot.on(/(sair|Sair)/, msg => {
   return bot.sendMessage(msg.from.id, "Até!", { replyMarkup: "hide" });
 });
 

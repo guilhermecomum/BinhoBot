@@ -1,4 +1,4 @@
-import TeleBot from "telebot";
+import Telegraf, { Markup, Extra } from "telegraf";
 import dotenv from "dotenv";
 import getHoroscope from "./utils/zodiac";
 import getQuestion from "./utils/questions";
@@ -6,12 +6,14 @@ import getAlbum from "./utils/1001";
 import { getSpotifyAlbum } from "./utils/spotify";
 
 dotenv.config({ silent: true });
-const token = process.env.TELEGRAM_API;
+//const token = process.env.TELEGRAM_API;
+const token = process.env.BOT_TOKEN;
+const bot = new Telegraf(token);
 
-const bot = new TeleBot({
-  token: token,
-  usePlugins: ["commandButton"]
-});
+bot.command('start', (ctx) => {
+  Markup.removeKeyboard(true)
+  ctx.reply('Hello')
+})
 
 bot.on(/^\/(start|help|ajuda)$/, async (msg, props) => {
   let id = msg.from.id;
@@ -23,79 +25,52 @@ bot.on(/^\/(start|help|ajuda)$/, async (msg, props) => {
   );
 });
 
-bot.on(/\/signo/, (msg, props) => {
-  let replyMarkup = bot.keyboard(
-    [
-      [bot.button("♈ Áries"), bot.button("♉ Touro"), bot.button("♊ Gêmeos")],
-      [bot.button("♋ Câncer"), bot.button("♌ Leão"), bot.button("♍ Virgem")],
-      [
-        bot.button("♎ Libra"),
-        bot.button("♏ Escorpião"),
-        bot.button("♐ Sagitário")
-      ],
-      [
-        bot.button("♑ Capricórnio"),
-        bot.button("♒ Aquário"),
-        bot.button("♓ Peixes")
-      ],
-      [bot.button("sair")]
-    ],
-    { resize: true }
-  );
-  return bot.sendMessage(msg.from.id, "Qual seu signo?", { replyMarkup });
-});
 
-bot.on(/^(♈|♉|♊|♋|♌|♍|♎|♏|♐|♑|♒|♓)(.+)$/, async (msg, props) => {
-  const term = props.match[1];
-  let id = msg.from.id;
-  let name = msg.from.first_name;
+bot.command('signo', ({ reply }) => {
+  reply('Qual seu signo?', Markup.keyboard([
+    ["♈ Áries", "♉ Touro", "♊ Gêmeos"],
+    ["♋ Câncer", "♌ Leão", "♍ Virgem"],
+    [ "♎ Libra", "♏ Escorpião", "♐ Sagitário" ],
+    [ "♑ Capricórnio", "♒ Aquário", "♓ Peixes" ],
+  ]).oneTime().resize().extra())
+})
+
+bot.hears(/^(♈|♉|♊|♋|♌|♍|♎|♏|♐|♑|♒|♓)(.+)$/, async ctx => {
+  const term = ctx.match[1];
+  let id = ctx.from.id;
+  let name = ctx.from.first_name;
   let result = await getHoroscope(term);
-  bot.sendMessage(id, `*${result.day}*\n${name}, ${result.horoscope}`, {
-    parseMode: "markdown",
-    replayMarkup: "hide"
-  });
+  ctx.reply(`*${result.day}*\n${name}, ${result.horoscope}`,
+     Extra.markdown()
+  )
 });
 
-bot.on(/^\/pergunta$/, async (msg, props) => {
-  let id = msg.from.id;
-  const question = await getQuestion("random");
-  return bot.sendMessage(msg.from.id, question);
+bot.hears(/pergunta?(.+)/, async ctx => {
+  let arg = ctx.match[1]
+  let index = Number.isInteger(parseInt(arg)) ? parseInt(arg) : "random"
+  const question = await getQuestion(index);
+  ctx.reply(question);
 });
 
-bot.on(/^\/pergunta (.+)$/, async (msg, props) => {
-  const question = await getQuestion(props.match[1]);
-  return bot.sendMessage(msg.from.id, question);
-});
-
-bot.on(/^\/spotify (.+)$/, async (msg, props) => {
-  const term = props.match[1];
-  const album = await getSpotifyAlbum(term);
-  let markup = ``;
+bot.action(/spotify (.+)$/, async ctx => {
+  const arg = ctx.match[1];
+  const album = await getSpotifyAlbum(arg);
+  let response = ``;
   if (album) {
-    markup = `${album.external_urls.spotify}`;
+    response = `${album.external_urls.spotify}`;
   } else {
-    markup = `Ops! Esse album não existe no spotify =(`;
+    response = `Ops! Esse album não existe no spotify =(`;
   }
-  return bot.sendMessage(msg.from.id, markup, { parseMode: "html" });
+  ctx.reply(response, Extra.markdown());
 });
 
-bot.on(/^\/album$/, async (msg, props) => {
-  let id = msg.from.id;
+
+bot.command('album', async ctx => {
   const album = await getAlbum("random");
-  const replyMarkup = bot.inlineKeyboard([
-    [
-      bot.inlineButton("🔍 Spotify", {
-        callback: `/spotify ${album}`
-      })
-    ]
-  ]);
+  return ctx.reply(album, Markup.inlineKeyboard([
+     Markup.callbackButton('🔍 Spotify', `spotify ${album}`)
 
-  return bot.sendMessage(msg.from.id, album, { replyMarkup });
-});
+  ]).extra())
+})
 
-// Hide keyboard
-bot.on(/(sair|Sair)/, msg => {
-  return bot.sendMessage(msg.from.id, "Até!", { replyMarkup: "hide" });
-});
-
-bot.start();
+bot.launch();

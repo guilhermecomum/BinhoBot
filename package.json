@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
     "start": "npm run build && node dist/src/main.js",
-    "devel": "nodemon --exec babel-node -- src/main.jsx"
+    "devel": "nodemon --exec babel-node -- src/main.js"
   },
   "dependencies": {
     "axios": "^0.17.0",
@@ -21,7 +21,6 @@
     "nodemon": "^1.12.1",
     "rimraf": "^2.6.2",
     "spotify-web-api-node": "^4.0.0",
-    "telebot": "^1.2.3",
     "telegraf": "^3.29.0"
   },
   "repository": {

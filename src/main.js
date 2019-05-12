@@ -6,14 +6,16 @@ import getAlbum from "./utils/1001";
 import { getSpotifyAlbum } from "./utils/spotify";
 
 dotenv.config({ silent: true });
-//const token = process.env.TELEGRAM_API;
 const token = process.env.BOT_TOKEN;
 const bot = new Telegraf(token);
 
 bot.hears(/^\/(start|help|ajuda)$/, async ctx => {
   let name = ctx.from.first_name;
   return ctx.reply(
-    `Olá ${name},\n\nEu sou o Binho e estou aqui para te ajudar \u{1F916}\n\n - Se quer saber seu horóscopo do dia: /signo\n - Se quiser uma pergunta aleatória: /pergunta\n - Se quiser um album aleatório: /album `,
+    `Olá ${name},\n\nEu sou o Binho e estou aqui para te ajudar
+    \u{1F916}\n\n - Se quer saber seu horóscopo do dia: /signo\n - Se
+    quiser uma pergunta aleatória: /pergunta\n - Se quiser um album
+    aleatório: /album `,
     Extra.markdown()
   );
 });

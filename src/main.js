@@ -6,7 +6,7 @@ import getAlbum from "./utils/1001";
 import { getSpotifyAlbum } from "./utils/spotify";
 
 dotenv.config({ silent: true });
-const token = process.env.BOT_TOKEN;
+const token = process.env.BOT_PROD;
 const bot = new Telegraf(token);
 
 bot.hears(/^\/(start|help|ajuda)$/, async ctx => {

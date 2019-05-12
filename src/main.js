@@ -10,18 +10,11 @@ dotenv.config({ silent: true });
 const token = process.env.BOT_TOKEN;
 const bot = new Telegraf(token);
 
-bot.command('start', (ctx) => {
-  Markup.removeKeyboard(true)
-  ctx.reply('Hello')
-})
-
-bot.on(/^\/(start|help|ajuda)$/, async (msg, props) => {
-  let id = msg.from.id;
-  let name = msg.from.first_name;
-  return bot.sendMessage(
-    msg.from.id,
+bot.hears(/^\/(start|help|ajuda)$/, async ctx => {
+  let name = ctx.from.first_name;
+  return ctx.reply(
     `Olá ${name},\n\nEu sou o Binho e estou aqui para te ajudar \u{1F916}\n\n - Se quer saber seu horóscopo do dia: /signo\n - Se quiser uma pergunta aleatória: /pergunta\n - Se quiser um album aleatório: /album `,
-    { parseMode: "markdown", replayMarkup: "hide" }
+    Extra.markdown()
   );
 });
 

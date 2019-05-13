@@ -1,5 +1,5 @@
-import cheerio from 'cheerio'
-import axios from 'axios'
+const cheerio = require('cheerio');
+const axios = require('axios');
 
 const zodiacDict = {
   "♈": "aries",
@@ -16,7 +16,7 @@ const zodiacDict = {
   "♓": "peixes"
 }
 
-export default function getHoroscope(sign) {
+module.exports.getHoroscope = function(sign) {
   let zodiac = zodiacDict[sign]
   return axios.get(`http://emais.estadao.com.br/horoscopo/${zodiac}`).then((response) => {
     let $ = cheerio.load(response.data)

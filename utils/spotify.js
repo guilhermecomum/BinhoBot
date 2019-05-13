@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
-import SpotifyWebApi from "spotify-web-api-node";
+const dotenv = require("dotenv");
+const SpotifyWebApi = require("spotify-web-api-node");
+
 dotenv.config({ silent: true });
 
 // credentials are optional
@@ -8,7 +9,7 @@ var spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_SECRET
 });
 
-export function getSpotifyCredentials() {
+const getSpotifyCredentials = function() {
   return spotifyApi
     .clientCredentialsGrant()
     .then(
@@ -18,7 +19,7 @@ export function getSpotifyCredentials() {
     );
 }
 
-export async function getSpotifyAlbum(album) {
+const getSpotifyAlbum = async function(album) {
   await getSpotifyCredentials();
   const result = await spotifyApi
     .searchAlbums(album)
@@ -30,3 +31,6 @@ export async function getSpotifyAlbum(album) {
 
   return result;
 }
+
+
+module.exports = { getSpotifyCredentials, getSpotifyAlbum }

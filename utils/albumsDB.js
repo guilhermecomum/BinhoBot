@@ -1,4 +1,4 @@
-const Albuns = [
+module.exports = Albuns = [
   "Frank Sinatra - In The Wee Small Hours",
   "Elvis Presley - Elvis Presley",
   "The Louvin Brothers - Tragic Songs Of Life",
@@ -1001,5 +1001,3 @@ const Albuns = [
   "Deerhunter - Halcyon Digest",
   "Arcade Fire - The Suburbs"
 ];
-
-export default Albuns;

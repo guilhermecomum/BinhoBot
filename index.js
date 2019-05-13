@@ -1,13 +1,12 @@
-import Telegraf, { Markup, Extra } from "telegraf";
-import dotenv from "dotenv";
-import getHoroscope from "./utils/zodiac";
-import getQuestion from "./utils/questions";
-import getAlbum from "./utils/1001";
-import { getSpotifyAlbum } from "./utils/spotify";
+const { Composer, Markup, Extra } = require("micro-bot");
+const dotenv = require("dotenv");
+const { getHoroscope } = require("./utils/zodiac");
+const { getQuestion } = require("./utils/questions");
+const { getAlbum } = require("./utils/1001");
+const { getSpotifyAlbum } = require("./utils/spotify");
 
 dotenv.config({ silent: true });
-const token = process.env.BOT_PROD;
-const bot = new Telegraf(token);
+const bot = new Composer()
 
 bot.hears(/^\/(start|help|ajuda)$/, async ctx => {
   let name = ctx.from.first_name;
@@ -68,4 +67,4 @@ bot.command('album', async ctx => {
   ]).extra())
 })
 
-bot.launch();
+module.exports = bot

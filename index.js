@@ -9,7 +9,7 @@ dotenv.config({ silent: true });
 const bot = new Composer()
 
 bot.hears(/^\/(start|help|ajuda)$/, async ctx => {
-  let name = ctx.from.first_name;
+  const name = ctx.from.first_name;
   return ctx.reply(
     `Olá ${name},\n\nEu sou o Binho e estou aqui para te ajudar
     \u{1F916}\n\n - Se quer saber seu horóscopo do dia: /signo\n - Se
